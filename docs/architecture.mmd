@@ -1,0 +1,8 @@
+flowchart LR
+    A["Carbon intensity + workload constraints"] --> B["Build feasible windows"]
+    B --> C["Rolling-window optimizer"]
+    C --> D["Scheduled workload"]
+    D --> E["Avoided CO2e / cost / delay"]
+    E --> F["Grid Carbon Intelligence
+Evaluation"]
+    F -. feedback .-> C
