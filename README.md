@@ -1,40 +1,42 @@
-# Grid carbon intelligence
+# Grid Carbon Intelligence
 
-> Carbon-aware workload scheduling and grid-intensity analytics for efficient computing.
+[![Quality](https://github.com/vipul957/grid-carbon-intelligence/actions/workflows/quality.yml/badge.svg)](https://github.com/vipul957/grid-carbon-intelligence/actions/workflows/quality.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Why this project exists
+> **Grid Carbon Intelligence** is a carbon-aware workload scheduling and grid-intensity analytics toolkit.
 
-This repository is an open-source research and engineering blueprint for a difficult problem at the intersection of machine learning, scientific computing, and real-world energy or infrastructure systems. It is designed to grow from a transparent baseline into a reproducible benchmark and deployable reference implementation.
+## Problem statement
 
-## Intended industry use cases
+Choose feasible execution windows that reduce emissions without violating duration or deadline constraints.
 
-Problem families relevant to **Microsoft, Amazon, Google, NVIDIA** include efficient infrastructure, energy transition, intelligent assets, scientific discovery, and reliable decision support. This repository is independent and does not claim affiliation, endorsement, or use of proprietary company data.
+The central mathematical object is **min mean(grid_intensity[window]) subject to duration and deadline**. The current implementation keeps this object small and testable so that later deep-learning improvements can be compared with an auditable baseline.
 
-## Planned capabilities
+## Data contract
 
-- Reproducible data ingestion and validation contracts
-- Strong statistical and deep-learning baselines
-- Temporal or physics-aware feature engineering
-- Calibration, uncertainty quantification, and stress testing
-- Experiment tracking, ablation studies, and model cards
-- FastAPI inference service and Docker deployment blueprint
-- Unit tests, documentation, and GitHub Actions quality checks
+Expected input: **timestamped grams CO2e/kWh plus workload kWh, duration, deadline, and optional price**. Every adapter must document units, provenance, timezone, missing values, licensing, and information available at prediction time. Synthetic examples test the software contract; they are not domain evidence.
 
-## Research roadmap
+## Baseline and assumptions
 
-1. Define the mathematical problem and data contract.
-2. Implement a leakage-safe baseline with deterministic evaluation.
-3. Add the deep-learning or scientific-ML model family.
-4. Compare accuracy, robustness, compute cost, and interpretability.
-5. Add uncertainty estimates, monitoring, and reproducible release artifacts.
+The first method is **rolling-window optimization followed by multi-objective carbon/cost scheduling**. It assumes correctly timestamped observations and a stable evaluation definition. A future model must preserve the split logic and report improvement over this baseline rather than only reporting an absolute score.
 
-## Status
+## Evaluation protocol
 
-**Research blueprint — actively being expanded.** Results should be treated as experimental until datasets, baselines, and evaluation reports are published.
+Report **avoided grams CO2e, delay, cost, renewable share, constraint violations**. Include performance by regime, calibration or uncertainty quality where applicable, compute cost, and known failure cases. Never tune repeatedly on the final test set.
 
-## License
+## Next research milestone
 
-MIT
+**Add price/carbon Pareto frontiers and a simulator for batch GPU workloads.**
+
+## Research status
+
+This repository is a documented baseline and extensible source scaffold. Results are experimental until validated on a licensed, representative dataset. No proprietary data, employment claim, endorsement, or company affiliation is implied.
+
+## Architecture
+
+The project separates domain formulation, data contracts, deterministic baselines, model implementations, evaluation, and deployment concerns. `src/` contains importable utilities, `tests/` contains fast contract tests, `examples/` contains runnable synthetic demonstrations, and `docs/ROADMAP.md` describes the next research stages.
+
+## Reproducibility contract
+
+Any future experiment must record dataset provenance and license, units and timezone, sampling interval, missing-value policy, split logic, random seeds, software versions, compute environment, and known limitations. Preprocessing must be fitted only on training data. Temporal problems require chronological or group-aware splits.
 
 ## Quick start
 
@@ -43,12 +45,18 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .
 pytest -q
+python examples/quick_demo.py
 ```
 
-The current release is intentionally a transparent baseline. Replace demo data with a documented, licensed dataset before drawing scientific or business conclusions.
+## Engineering standards
 
-## Reproducibility notes
+The repository includes GitHub Actions CI, MIT licensing, contribution and security guidance, issue and pull-request templates, and monthly Dependabot updates. A model card should be added before presenting domain results as decision-ready.
 
-The repository intentionally starts with deterministic, dependency-light building blocks. No proprietary datasets or company-internal claims are included. Any future benchmark should report dataset provenance, split logic, seed control, compute environment, and known limitations.
+## Limitations
 
-[Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+The baseline is not production-ready. Real deployment requires external validation, monitoring, access controls, incident response, and review by subject-matter experts.
+
+## References
+
+[1]: https://scikit-learn.org/stable/modules/model_evaluation.html "Scikit-learn model evaluation"
+[2]: https://pytorch.org/docs/stable/index.html "PyTorch documentation"
