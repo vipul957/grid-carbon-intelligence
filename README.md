@@ -4,6 +4,33 @@
 
 > **Grid Carbon Intelligence** is a carbon-aware workload scheduling and grid-intensity analytics toolkit.
 
+## Start here
+
+**In one sentence:** Choose lower-carbon workload windows while respecting duration and deadline constraints.
+
+| If you want to... | Open this first |
+|---|---|
+| Understand the method | [`src/grid_carbon_intelligence/scheduler.py`](src/grid_carbon_intelligence/scheduler.py) |
+| See the second reusable utility | [`src/grid_carbon_intelligence/constraints.py`](src/grid_carbon_intelligence/constraints.py) |
+| Run a tiny example | [`examples/quick_demo.py`](examples/quick_demo.py) |
+| Understand the next milestone | [`docs/ROADMAP.md`](docs/ROADMAP.md) |
+| Check correctness | [`tests/`](tests/) and the CI badge above |
+
+### System flow
+
+```mermaid
+flowchart LR
+    A[Domain input] --> B[Validated contract]
+    B --> C[feasible windows]
+    C --> D[Measured output]
+    D --> E[Limitations and next experiment]
+```
+
+### What is implemented now
+
+The repository currently contains a dependency-light, deterministic baseline with tests. It is intentionally small enough to inspect line by line. The next research layer should preserve the same input contract and evaluation protocol rather than replacing the baseline with an opaque demo.
+
+
 ## Problem statement
 
 Choose feasible execution windows that reduce emissions without violating duration or deadline constraints.
